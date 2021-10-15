@@ -37,7 +37,7 @@ class Form extends React.Component {
         <label htmlFor="moeda">
           Moeda
           <select name="moeda" id="moeda">
-            {typeOfCoins.map(({code}, index) => <option key={ index }>{code}</option>)}
+            {typeOfCoins.map(({ code }, index) => <option key={ index }>{code}</option>)}
           </select>
         </label>
         <label htmlFor="pagamento">
