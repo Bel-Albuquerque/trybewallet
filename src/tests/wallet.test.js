@@ -12,6 +12,7 @@ const apiResponse = Promise.resolve({
   ok: true,
 });
 
+
 const mockedExchange = jest.spyOn(global, 'fetch').mockImplementation(() => apiResponse);
 
 afterEach(() => jest.clearAllMocks());
