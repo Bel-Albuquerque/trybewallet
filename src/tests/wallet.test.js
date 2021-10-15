@@ -17,7 +17,7 @@ const mockedExchange = jest.spyOn(global, 'fetch').mockImplementation(() => apiR
 
 afterEach(() => jest.clearAllMocks());
 
-describe.only('4 - Crie uma página para sua carteira com as seguintes características:', () => {
+describe('4 - Crie uma página para sua carteira com as seguintes características:', () => {
   test('A rota para esta página deve ser \'/carteira\'', () => {
     const { history } = renderWithRouterAndStore(<App />);
     history.push('/carteira');
