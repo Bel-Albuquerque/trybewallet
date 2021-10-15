@@ -1,50 +1,51 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { selectUserAction } from '../actions';
 
 class InputLoggin extends React.Component {
   constructor() {
     super();
-    this.state = { 
+    this.state = {
       email: '',
       password: '',
       buttonDisabled: true,
-      redirect: false,
     };
+
+    this.handleChange = this.handleChange.bind(this);
+    this.emailPasswordIsValid = this.emailPasswordIsValid.bind(this);
+    this.validaEmail = this.validaEmail.bind(this);
   }
 
-  handleChange = ({ target }) => {
+  handleChange({ target }) {
     const { name, value } = target;
-    this.setState({ [name]: value }, () => this.emailPasswordIsValid())
+    this.setState({ [name]: value }, () => this.emailPasswordIsValid());
   }
 
-  emailPasswordIsValid = () => {
+  emailPasswordIsValid() {
     const { password } = this.state;
     if (this.validaEmail() && password.length >= 6) {
-      this.setState({buttonDisabled: false})
+      this.setState({ buttonDisabled: false });
     } else {
-      this.setState({buttonDisabled: true})
+      this.setState({ buttonDisabled: true });
     }
   }
 
-  validaEmail = () => {
+  validaEmail() {
     const { email } = this.state;
-    const emailSplit = email.split('')
-    if (email.includes('@') 
-    && emailSplit[emailSplit.length -1] !== '@'
-    && emailSplit[emailSplit.length -1] !== '.') {
-      return true
-    } else {
-      return false
+    const emailSplit = email.split('');
+    if (email.includes('@')
+    && emailSplit[emailSplit.length - 1] !== '@'
+    && emailSplit[emailSplit.length - 1] !== '.') {
+      return true;
     }
+    return false;
   }
-
-
 
   render() {
     const { email, password, buttonDisabled } = this.state;
     const { handleclick, sendEmailToGlobalState } = this.props;
-  
+
     return (
       <form>
         <input
@@ -64,23 +65,25 @@ class InputLoggin extends React.Component {
           onChange={ this.handleChange }
         />
 
-        <button 
-        type="button"
-        disabled={ buttonDisabled }
-        onClick={ () => handleclick(email, sendEmailToGlobalState ) }
-        >Entrar
+        <button
+          type="button"
+          disabled={ buttonDisabled }
+          onClick={ () => handleclick(email, sendEmailToGlobalState) }
+        >
+          Entrar
         </button>
       </form>
     );
   }
 }
 
-// const mapStateToProps = (state) => ({
-//   email: state.user.email,
-// });
-
 const mapDispatchToProps = (dispatch) => ({
   sendEmailToGlobalState: (email) => dispatch(selectUserAction(email)),
 });
+
+InputLoggin.propTypes = {
+  sendEmailToGlobalState: PropTypes.func.isRequired,
+  handleclick: PropTypes.func.isRequired,
+};
 
 export default connect(null, mapDispatchToProps)(InputLoggin);
