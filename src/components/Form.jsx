@@ -1,4 +1,6 @@
 import React from 'react';
+import { connect } from 'react-redux';
+import { createExpensesAction } from '../actions';
 import getCoins from '../sevicesAPI/moedasAPI';
 
 class Form extends React.Component {
@@ -6,9 +8,16 @@ class Form extends React.Component {
     super();
     this.state = {
       typeOfCoins: [],
+      valor: '',
+      descricao: '',
+      moeda: '',
+      pagamento: '',
+      tag: '',
     };
 
     this.requestCoinsAndPutInTheState = this.requestCoinsAndPutInTheState.bind(this);
+    this.handleChange = this.handleChange.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
   componentDidMount() {
@@ -22,45 +31,86 @@ class Form extends React.Component {
     this.setState({ typeOfCoins: changeForArray });
   }
 
+  handleChange({ target }) {
+    const { name, value } = target;
+    this.setState({ [name]: value });
+  }
+
+  handleClick(callback) {
+    const { valor, descricao, moeda, pagamento, tag } = this.state;
+    const objExpense = {
+      valor,
+      descricao,
+      moeda,
+      pagamento,
+      tag,
+    };
+    callback(objExpense);
+  }
+
+  // eslint-disable-next-line max-lines-per-function
   render() {
-    const { typeOfCoins } = this.state;
+    const { expensesList, addExpense } = this.props;
+    const { typeOfCoins, valor, descricao } = this.state;
     return (
       <form>
         <label htmlFor="valor">
           Valor
-          <input type="text" name="valor" id="valor" />
+          <input
+            onChange={ this.handleChange }
+            value={ valor }
+            type="text"
+            name="valor"
+            id="valor"
+          />
         </label>
         <label htmlFor="descricao">
           Descrição
-          <input type="text" name="descricao" id="descricao" />
+          <input
+            onChange={ this.handleChange }
+            value={ descricao }
+            type="text"
+            name="descricao"
+            id="descricao"
+          />
         </label>
         <label htmlFor="moeda">
           Moeda
-          <select name="moeda" id="moeda">
-            {typeOfCoins.map(({ code }, index) => <option key={ index }>{code}</option>)}
+          <select onChange={ this.handleChange } name="moeda" id="moeda">
+            {typeOfCoins.map(({ code }, index) => (
+              <option name="moeda" value={ code } key={ index }>{code}</option>))}
           </select>
         </label>
         <label htmlFor="pagamento">
           Método de pagamento
-          <select name="pagamento" id="pagamento">
-            <option>Dinheiro</option>
-            <option>Cartão de crédito</option>
-            <option>Cartão de débito</option>
+          <select onChange={ this.handleChange } name="pagamento" id="pagamento">
+            <option name="pagamento" value="Dinheiro">Dinheiro</option>
+            <option name="pagamento" value="Cartão de crédito">Cartão de crédito</option>
+            <option name="pagamento" value="Cartão de débito">Cartão de débito</option>
           </select>
         </label>
         <label htmlFor="tag">
           Tag
-          <select name="tag" id="tag">
-            <option>Transporte</option>
-            <option>Alimentação</option>
-            <option>Lazer</option>
-            <option>Trabalho</option>
-            <option>Saúde</option>
+          <select onChange={ this.handleChange } name="tag" id="tag">
+            <option name="tag" value="Transporte">Transporte</option>
+            <option name="tag" value="Alimentação">Alimentação</option>
+            <option name="tag" value="Lazer">Lazer</option>
+            <option name="tag" value="Trabalho">Trabalho</option>
+            <option name="tag" value="Saúde">Saúde</option>
           </select>
         </label>
+        <button onClick={ () => this.handleClick(addExpense) } type="button">Adicionar despesa</button>
       </form>
     );
   }
 }
 
-export default Form;
+const mapStateToProps = (state) => ({
+  expensesList: state.wallet,
+});
+
+const mapDispatchToProps = (dispath) => ({
+  addExpense: (expense) => dispath(createExpensesAction(expense)),
+});
+
+export default connect(mapStateToProps, mapDispatchToProps)(Form);

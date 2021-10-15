@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { Link } from 'react-router-dom';
 import { connect } from 'react-redux';
 import { selectUserAction } from '../actions';
 
@@ -45,7 +46,7 @@ class InputLoggin extends React.Component {
 
   render() {
     const { email, password, buttonDisabled } = this.state;
-    const { handleclick, sendEmailToGlobalState } = this.props;
+    const { sendEmailToGlobalState } = this.props;
 
     return (
       <form>
@@ -65,14 +66,15 @@ class InputLoggin extends React.Component {
           value={ password }
           onChange={ this.handleChange }
         />
-
-        <button
-          type="button"
-          disabled={ buttonDisabled }
-          onClick={ () => handleclick(email, sendEmailToGlobalState) }
-        >
-          Entrar
-        </button>
+        <Link to="/carteira">
+          <button
+            type="button"
+            disabled={ buttonDisabled }
+            onClick={ () => sendEmailToGlobalState(email) }
+          >
+            Entrar
+          </button>
+        </Link>
       </form>
     );
   }
@@ -84,7 +86,6 @@ const mapDispatchToProps = (dispatch) => ({
 
 InputLoggin.propTypes = {
   sendEmailToGlobalState: PropTypes.func.isRequired,
-  handleclick: PropTypes.func.isRequired,
 };
 
 export default connect(null, mapDispatchToProps)(InputLoggin);

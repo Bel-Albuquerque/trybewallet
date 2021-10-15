@@ -4,3 +4,10 @@ export const selectUserAction = (email) => ({
   type: USER_EMAIL_ACTIONS,
   email,
 });
+
+export const EXPENSES_ACTIONS = 'EXPENSES_ACTIONS';
+
+export const createExpensesAction = (expense) => ({
+  type: EXPENSES_ACTIONS,
+  expense,
+});
