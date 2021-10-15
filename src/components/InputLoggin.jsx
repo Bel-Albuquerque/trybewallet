@@ -24,7 +24,8 @@ class InputLoggin extends React.Component {
 
   emailPasswordIsValid() {
     const { password } = this.state;
-    if (this.validaEmail() && password.length >= 6) {
+    const MIN_PASSWORD_LENGTH = 6;
+    if (this.validaEmail() && password.length >= MIN_PASSWORD_LENGTH) {
       this.setState({ buttonDisabled: false });
     } else {
       this.setState({ buttonDisabled: true });
