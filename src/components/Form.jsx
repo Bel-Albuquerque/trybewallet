@@ -1,7 +1,29 @@
 import React from 'react';
+import getCoins from '../sevicesAPI/moedasAPI';
 
 class Form extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      typeOfCoins: [],
+    };
+
+    this.requestCoinsAndPutInTheState = this.requestCoinsAndPutInTheState.bind(this);
+  }
+
+  componentDidMount() {
+    this.requestCoinsAndPutInTheState();
+  }
+
+  async requestCoinsAndPutInTheState() {
+    const typeOfCoins = await getCoins();
+    const changeForArray = Object.values(typeOfCoins);
+    changeForArray.splice(1, 1);
+    this.setState({ typeOfCoins: changeForArray });
+  }
+
   render() {
+    const { typeOfCoins } = this.state;
     return (
       <form>
         <label htmlFor="valor">
@@ -15,7 +37,7 @@ class Form extends React.Component {
         <label htmlFor="moeda">
           Moeda
           <select name="moeda" id="moeda">
-            { }
+            {typeOfCoins.map(({code}, index) => <option key={ index }>{code}</option>)}
           </select>
         </label>
         <label htmlFor="pagamento">
