@@ -1,7 +1,9 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { fetchAwesomeApi } from '../actions';
 import getCoins from '../sevicesAPI/moedasAPI';
+import InputForm from './InputForm';
 
 class Form extends React.Component {
   constructor() {
@@ -74,48 +76,27 @@ class Form extends React.Component {
             id="description"
           />
         </label>
-        <label htmlFor="currency">
-          Moeda
-          <select onChange={ this.handleChange } name="currency" id="currency">
-            {typeOfCoins.map(({ code }, index) => (
-              <option name="currency" value={ code } key={ index }>{code}</option>))}
-          </select>
-        </label>
-        <label htmlFor="method">
-          Método de pagamento
-          <select onChange={ this.handleChange } name="method" id="method">
-            <option name="method" value="Dinheiro">Dinheiro</option>
-            <option name="method" value="Cartão de crédito">Cartão de crédito</option>
-            <option name="method" value="Cartão de débito">Cartão de débito</option>
-          </select>
-        </label>
-        <label htmlFor="tag">
-          Tag
-          <select onChange={ this.handleChange } name="tag" id="tag">
-            <option name="tag" value="Transporte">Transporte</option>
-            <option name="tag" value="Alimentação">Alimentação</option>
-            <option name="tag" value="Lazer">Lazer</option>
-            <option name="tag" value="Trabalho">Trabalho</option>
-            <option name="tag" value="Saúde">Saúde</option>
-          </select>
-        </label>
-        <button
-          onClick={ () => this.handleClick(createObjectOfExpenses) }
-          type="button"
-        >
-          Adicionar despesa
-        </button>
+        <InputForm
+          createObjectOfExpenses={ createObjectOfExpenses }
+          typeOfCoins={ typeOfCoins }
+          handlechange={ this.handleChange }
+          handleclick={ this.handleClick }
+        />
       </form>
     );
   }
 }
 
 const mapStateToProps = (state) => ({
-  expensesList: state.wallet,
+  expensesList: state.wallet.totalValue,
 });
 
 const mapDispatchToProps = (dispath) => ({
   createObjectOfExpenses: (expense) => dispath(fetchAwesomeApi(expense)),
 });
+
+Form.propTypes = {
+  createObjectOfExpenses: PropTypes.func.isRequired,
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

@@ -6,7 +6,6 @@ class Header extends React.Component {
   constructor() {
     super();
     this.state = {
-      totalExpenses: 0,
       exchange: 'BRL',
     };
   }
@@ -18,7 +17,7 @@ class Header extends React.Component {
       <div data-testid="email-field">
         <p>{ userLoggin }</p>
         <p data-testid="total-field">
-          { totalExpenses }
+          { !totalExpenses ? 0 : totalExpenses }
         </p>
         <p data-testid="header-currency-field">
           { exchange }
@@ -35,6 +34,7 @@ const mapStateToProps = (state) => ({
 
 Header.propTypes = {
   userLoggin: PropTypes.string.isRequired,
+  totalExpenses: PropTypes.number.isRequired,
 };
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, null)(Header);

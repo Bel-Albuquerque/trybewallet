@@ -2,7 +2,7 @@ import { EXPENSES_ACTIONS } from '../actions/index';
 
 const INITIAL_STATE = { expenses: [], totalValue: 0 };
 
-const expenses = (state = INITIAL_STATE, action) => {
+const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case EXPENSES_ACTIONS:
     return {
@@ -22,4 +22,4 @@ const expenses = (state = INITIAL_STATE, action) => {
   }
 };
 
-export default expenses;
+export default wallet;
