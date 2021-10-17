@@ -1,79 +1,11 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { fetchAwesomeApi } from '../actions';
-import getCoins from '../sevicesAPI/moedasAPI';
 
 class Form extends React.Component {
-  constructor() {
-    super();
-    this.state = {
-      typeOfCoins: [],
-      value: '',
-      description: '',
-      currency: '',
-      method: '',
-      tag: '',
-    };
-
-    this.requestCoinsAndPutInTheState = this.requestCoinsAndPutInTheState.bind(this);
-    this.handleChange = this.handleChange.bind(this);
-    this.handleClick = this.handleClick.bind(this);
-  }
-
-  componentDidMount() {
-    this.requestCoinsAndPutInTheState();
-  }
-
-  async requestCoinsAndPutInTheState() {
-    const typeOfCoins = await getCoins();
-    const changeForArray = Object.values(typeOfCoins);
-    changeForArray.splice(1, 1);
-    this.setState({ typeOfCoins: changeForArray });
-  }
-
-  handleChange({ target }) {
-    const { name, value } = target;
-    this.setState({ [name]: value });
-  }
-
-  handleClick(callback1) {
-    const { value, description, currency, method, tag } = this.state;
-    const objExpense = {
-      value,
-      description,
-      currency,
-      method,
-      tag,
-    };
-    callback1(objExpense);
-  }
-
-  // eslint-disable-next-line max-lines-per-function
   render() {
     const { createObjectOfExpenses } = this.props;
-    const { typeOfCoins, value, description } = this.state;
+    const { typeOfCoins } = this.state;
     return (
-      <form>
-        <label htmlFor="value">
-          Valor
-          <input
-            onChange={ this.handleChange }
-            value={ value }
-            type="text"
-            name="value"
-            id="value"
-          />
-        </label>
-        <label htmlFor="description">
-          Descrição
-          <input
-            onChange={ this.handleChange }
-            value={ description }
-            type="text"
-            name="description"
-            id="description"
-          />
-        </label>
+      <>
         <label htmlFor="currency">
           Moeda
           <select onChange={ this.handleChange } name="currency" id="currency">
@@ -105,7 +37,7 @@ class Form extends React.Component {
         >
           Adicionar despesa
         </button>
-      </form>
+        </>
     );
   }
 }
