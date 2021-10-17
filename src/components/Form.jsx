@@ -1,6 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { createExpensesAction } from '../actions';
+import { fetchAwesomeApi } from '../actions';
 import getCoins from '../sevicesAPI/moedasAPI';
 
 class Form extends React.Component {
@@ -36,7 +36,7 @@ class Form extends React.Component {
     this.setState({ [name]: value });
   }
 
-  handleClick(callback) {
+  handleClick(callback1) {
     const { valor, descricao, moeda, pagamento, tag } = this.state;
     const objExpense = {
       valor,
@@ -45,12 +45,12 @@ class Form extends React.Component {
       pagamento,
       tag,
     };
-    callback(objExpense);
+    callback1(objExpense);
   }
 
   // eslint-disable-next-line max-lines-per-function
   render() {
-    const { expensesList, addExpense } = this.props;
+    const { createObjectOfExpenses } = this.props;
     const { typeOfCoins, valor, descricao } = this.state;
     return (
       <form>
@@ -99,7 +99,12 @@ class Form extends React.Component {
             <option name="tag" value="Saúde">Saúde</option>
           </select>
         </label>
-        <button onClick={ () => this.handleClick(addExpense) } type="button">Adicionar despesa</button>
+        <button
+          onClick={ () => this.handleClick(createObjectOfExpenses) }
+          type="button"
+        >
+          Adicionar despesa
+        </button>
       </form>
     );
   }
@@ -110,7 +115,7 @@ const mapStateToProps = (state) => ({
 });
 
 const mapDispatchToProps = (dispath) => ({
-  addExpense: (expense) => dispath(createExpensesAction(expense)),
+  createObjectOfExpenses: (expense) => dispath(fetchAwesomeApi(expense)),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

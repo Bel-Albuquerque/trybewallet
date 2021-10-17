@@ -12,6 +12,7 @@ const expenses = (state = INITIAL_STATE, action) => {
       moeda: action.expense.moeda,
       pagamento: action.expense.pagamento,
       tag: action.expense.tag,
+      exchangeRates: action.json,
     }];
   default:
     return state;
