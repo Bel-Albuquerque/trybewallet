@@ -46,10 +46,11 @@ class InputLoggin extends React.Component {
 
   render() {
     const { email, password, buttonDisabled } = this.state;
-    const { sendEmailToGlobalState } = this.props;
+    const { sendEmailToGlobalState, userLoggin } = this.props;
 
     return (
       <form>
+        {/* {console.log(userLoggin)} */}
         <input
           data-testid="email-input"
           type="text"
@@ -84,8 +85,12 @@ const mapDispatchToProps = (dispatch) => ({
   sendEmailToGlobalState: (email) => dispatch(selectUserAction(email)),
 });
 
+const mapStateToProps = (state) => ({
+  userLoggin: state.user.email,
+});
+
 InputLoggin.propTypes = {
   sendEmailToGlobalState: PropTypes.func.isRequired,
 };
 
-export default connect(null, mapDispatchToProps)(InputLoggin);
+export default connect(mapStateToProps, mapDispatchToProps)(InputLoggin);

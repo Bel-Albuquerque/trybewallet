@@ -44,7 +44,7 @@ class InputForm extends React.Component {
 
 InputForm.propTypes = {
   createObjectOfExpenses: PropTypes.func.isRequired,
-  typeOfCoins: PropTypes.arrayOf(PropTypes.string).isRequired,
+  typeOfCoins: PropTypes.arrayOf(PropTypes.any).isRequired,
   handlechange: PropTypes.func.isRequired,
   handleclick: PropTypes.func.isRequired,
 };

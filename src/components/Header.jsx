@@ -17,7 +17,7 @@ class Header extends React.Component {
       <div data-testid="email-field">
         <p>{ userLoggin }</p>
         <p data-testid="total-field">
-          { !totalExpenses ? 0 : totalExpenses }
+          { totalExpenses }
         </p>
         <p data-testid="header-currency-field">
           { exchange }
@@ -34,7 +34,11 @@ const mapStateToProps = (state) => ({
 
 Header.propTypes = {
   userLoggin: PropTypes.string.isRequired,
-  totalExpenses: PropTypes.number.isRequired,
+  totalExpenses: PropTypes.number,
+};
+
+Header.defaultProps = {
+  totalExpenses: 0,
 };
 
 export default connect(mapStateToProps, null)(Header);
