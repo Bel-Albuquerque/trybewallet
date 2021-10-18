@@ -17,7 +17,7 @@ const mockedExchange = jest.spyOn(global, 'fetch').mockImplementation(() => apiR
 
 afterEach(() => jest.clearAllMocks());
 
-describe.only('4 - Crie uma página para sua carteira com as seguintes características:', () => {
+describe('4 - Crie uma página para sua carteira com as seguintes características:', () => {
   test('A rota para esta página deve ser \'/carteira\'', () => {
     const { history } = renderWithRouterAndStore(<App />);
     history.push('/carteira');
@@ -31,7 +31,7 @@ describe.only('4 - Crie uma página para sua carteira com as seguintes caracter�
   });
 });
 
-describe.only('5 - Crie um header para a página de carteira contendo as seguintes características:', () => {
+describe('5 - Crie um header para a página de carteira contendo as seguintes características:', () => {
   const initial = initialStateHeader;
 
   test('Um elemento que exiba o email do usuário que fez login.', () => {
@@ -59,7 +59,7 @@ describe.only('5 - Crie um header para a página de carteira contendo as seguint
   });
 });
 
-describe.only('6 - Desenvolva um formulário para adicionar uma despesa contendo as seguintes características:', () => {
+describe('6 - Desenvolva um formulário para adicionar uma despesa contendo as seguintes características:', () => {
   test('Um campo para adicionar o valor da despesa', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const valueInput = await screen.findByLabelText(/valor/i);
@@ -121,7 +121,7 @@ describe.only('6 - Desenvolva um formulário para adicionar uma despesa contendo
   });
 });
 
-describe.only('7 - Implemente a lógica para preencher as opções do campo "Moedas", buscando as siglas das moedas da API', () => {
+describe('7 - Implemente a lógica para preencher as opções do campo "Moedas", buscando as siglas das moedas da API', () => {
   test('Um campo para selecionar em qual moeda será registrada a despesa', async () => {
     renderWithRouterAndStore(<Wallet />, '/carteira');
     const currencyInput = await screen.findByRole('combobox', {
@@ -144,7 +144,7 @@ describe.only('7 - Implemente a lógica para preencher as opções do campo "Moe
   });
 });
 
-  describe.only('8 - Desenvolva a opção de "Adicionar despesa" na sua tabela de gastos', () => {
+  describe('8 - Desenvolva a opção de "Adicionar despesa" na sua tabela de gastos', () => {
   test('Crie um botão com o texto \'Adicionar despesa\' que salva as informações da despesa no estado global e atualiza a soma de despesas no header', async () => {
     const { store } = renderWithRouterAndStore(<Wallet />, '/carteira');
 
@@ -229,7 +229,7 @@ describe.only('7 - Implemente a lógica para preencher as opções do campo "Moe
   });
 });
 
-describe.only('9 - Desenvolva uma tabela com os gastos contendo as seguintes características:', () => {
+describe('9 - Desenvolva uma tabela com os gastos contendo as seguintes características:', () => {
   const initial = initialStateWithExpenses;
 
   test('A tabela deve possuir um cabeçalho com os campos Descrição, Tag, Método de pagamento, Valor, Moeda, Câmbio utilizado, Valor convertido e Moeda de conversão', () => {

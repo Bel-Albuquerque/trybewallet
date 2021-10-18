@@ -92,4 +92,4 @@ InputLoggin.propTypes = {
   sendEmailToGlobalState: PropTypes.func.isRequired,
 };
 
-export default connect(mapStateToProps, mapDispatchToProps)(InputLoggin);
+export default connect(null, mapDispatchToProps)(InputLoggin);
