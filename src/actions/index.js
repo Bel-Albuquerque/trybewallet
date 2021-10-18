@@ -18,3 +18,17 @@ export function fetchAwesomeApi(expense) {
     .then((r) => r.json()
       .then((json) => dispatch(createExpensesAction(expense, json))));
 }
+
+export const NEW_EXPENSES_LIST = 'NEW_EXPENSES_LIST';
+
+export const newExpenseAction = (newExpense) => ({
+  type: NEW_EXPENSES_LIST,
+  newExpense,
+});
+
+export const NEW_TOTAL_VALUE = 'NEW_TOTAL_VALUE';
+
+export const newTotalValueAction = (newValue) => ({
+  type: NEW_TOTAL_VALUE,
+  newValue,
+});

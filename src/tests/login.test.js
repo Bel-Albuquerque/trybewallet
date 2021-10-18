@@ -106,7 +106,7 @@ describe('3 - Utilize o Redux para salvar no estado global as informações da p
   });
 
   test('A rota deve ser mudada para \'/carteira\' após o clique no botão.', () => {
-    const { history, store } = renderWithRouterAndStore(<App />, '/');
+    const { history } = renderWithRouterAndStore(<App />, '/');
     const email = screen.getByTestId(EMAIL_INPUT_TEST_ID);
     const senha = screen.getByTestId(PASSWORD_INPUT_TEST_ID);
     const button = screen.getByText(/Entrar/i);
@@ -114,7 +114,7 @@ describe('3 - Utilize o Redux para salvar no estado global as informações da p
     userEvent.type(email, VALID_EMAIL);
     userEvent.type(senha, VALID_PASSWORD);
     fireEvent.click(button);
-
+    
     expect(history.location.pathname).toBe('/carteira');
   });
 });

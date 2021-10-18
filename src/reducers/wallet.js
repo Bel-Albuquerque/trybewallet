@@ -1,4 +1,4 @@
-import { EXPENSES_ACTIONS } from '../actions/index';
+import { EXPENSES_ACTIONS, NEW_EXPENSES_LIST, NEW_TOTAL_VALUE } from '../actions/index';
 
 const INITIAL_STATE = { expenses: [], totalValue: 0 };
 
@@ -17,6 +17,18 @@ const wallet = (state = INITIAL_STATE, action) => {
         tag: action.expense.tag,
         exchangeRates: action.json,
       }] };
+
+  case NEW_EXPENSES_LIST:
+    return {
+      ...state,
+      expenses: action.newExpense,
+    };
+  case NEW_TOTAL_VALUE:
+    return {
+      ...state,
+      totalValue: action.newValue,
+    };
+
   default:
     return state;
   }

@@ -14,15 +14,18 @@ class Header extends React.Component {
     const { exchange } = this.state;
     const { userLoggin, totalExpenses } = this.props;
     return (
-      <div data-testid="email-field">
-        <p>{ userLoggin }</p>
+      <>
+        <p data-testid="email-field">
+          { userLoggin }
+        </p>
+        {console.log(totalExpenses)}
         <p data-testid="total-field">
           { totalExpenses }
         </p>
         <p data-testid="header-currency-field">
           { exchange }
         </p>
-      </div>
+      </>
     );
   }
 }

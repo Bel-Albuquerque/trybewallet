@@ -19,8 +19,8 @@ class InputLoggin extends React.Component {
   }
 
   handleChange({ target }) {
-    const { name, value } = target;
-    this.setState({ [name]: value }, () => this.emailPasswordIsValid());
+    const { id, value } = target;
+    this.setState({ [id]: value }, () => this.emailPasswordIsValid());
   }
 
   emailPasswordIsValid() {
@@ -53,15 +53,15 @@ class InputLoggin extends React.Component {
         <input
           data-testid="email-input"
           type="text"
-          name="email"
+          // name="email"
           id="email"
           value={ email }
           onChange={ this.handleChange }
         />
         <input
           data-testid="password-input"
-          type="text"
-          name="password"
+          type="password"
+          // name="password"
           id="password"
           value={ password }
           onChange={ this.handleChange }
@@ -83,10 +83,6 @@ class InputLoggin extends React.Component {
 const mapDispatchToProps = (dispatch) => ({
   sendEmailToGlobalState: (email) => dispatch(selectUserAction(email)),
 });
-
-// const mapStateToProps = (state) => ({
-//   userLoggin: state.user.email,
-// });
 
 InputLoggin.propTypes = {
   sendEmailToGlobalState: PropTypes.func.isRequired,

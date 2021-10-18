@@ -2,8 +2,12 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class TableBody extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    // const { expensesList } = props;
+
+    // this.state = { newExpense: expensesList };
+
     this.validaValue = this.validaValue.bind(this);
     this.returnCurrencyName = this.returnCurrencyName.bind(this);
     this.returnExchangeValue = this.returnExchangeValue.bind(this);
@@ -37,8 +41,8 @@ class TableBody extends React.Component {
   }
 
   render() {
-    const { expense } = this.props;
-    const { currency, description, exchangeRates, method, tag, value } = expense;
+    const { expense, handleDelete } = this.props;
+    const { id, currency, description, exchangeRates, method, tag, value } = expense;
     return (
 
       <tr>
@@ -50,7 +54,17 @@ class TableBody extends React.Component {
         <td>{ this.returnExchangeRate(exchangeRates, currency) }</td>
         <td>{ this.returnExchangeValue(exchangeRates, currency, value) }</td>
         <td>Real</td>
-        <td>Editar/Excluir</td>
+        <td>
+          Editar/
+          <button
+            data-testid="delete-btn"
+            id={ id }
+            type="button"
+            onClick={ handleDelete }
+          >
+            Excluir
+          </button>
+        </td>
 
       </tr>
 
