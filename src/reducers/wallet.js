@@ -26,7 +26,7 @@ const wallet = (state = INITIAL_STATE, action) => {
   case NEW_TOTAL_VALUE:
     return {
       ...state,
-      totalValue: action.newValue,
+      totalValue: Number(state.totalValue) - Number(action.newValue),
     };
 
   default:

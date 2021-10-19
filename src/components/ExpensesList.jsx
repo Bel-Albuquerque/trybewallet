@@ -10,17 +10,17 @@ class ExpensesList extends React.Component {
     super();
 
     this.handleClickDelete = this.handleClickDelete.bind(this);
-    this.returnExchangeValue = this.returnExchangeValue.bind(this);
+    this.returnNewTotalValue = this.returnNewTotalValue.bind(this);
   }
 
-  returnExchangeValue({ exchangeRates, currency, value }) {
-    const { newTotalValue, total } = this.props;
+  returnNewTotalValue({ exchangeRates, currency, value }) {
+    const { newTotalValue } = this.props;
     const arrayExchangeRates = Object.values(exchangeRates);
     const currencyObject = arrayExchangeRates.find(({ code }) => code === currency);
     const exchangeRate = Number(currencyObject.ask);
     const totalExchange = exchangeRate * Number(value);
-    const newTotal = Number(total) - Number(totalExchange);
-    newTotalValue(newTotal);
+
+    newTotalValue(totalExchange);
   }
 
   handleClickDelete({ target }) {
@@ -28,7 +28,7 @@ class ExpensesList extends React.Component {
     const { id } = target;
 
     const deletedObject = expensesList.find((obj) => obj.id === Number(id));
-    this.returnExchangeValue(deletedObject);
+    this.returnNewTotalValue(deletedObject);
 
     const newArray = expensesList.reduce((acc, cur) => {
       let temp = acc;
@@ -76,6 +76,8 @@ const mapDispatchToProps = (dispatch) => ({
 
 ExpensesList.propTypes = {
   expensesList: PropTypes.arrayOf(PropTypes.any).isRequired,
+  newTotalValue: PropTypes.func.isRequired,
+  newExpenseAct: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpensesList);

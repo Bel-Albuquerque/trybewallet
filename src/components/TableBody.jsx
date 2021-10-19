@@ -2,11 +2,9 @@ import React from 'react';
 import PropTypes from 'prop-types';
 
 class TableBody extends React.Component {
-  constructor(props) {
-    super(props);
-    // const { expensesList } = props;
-
-    // this.state = { newExpense: expensesList };
+  constructor() {
+    super();
+    this.state = { exchangeValue: '' };
 
     this.validaValue = this.validaValue.bind(this);
     this.returnCurrencyName = this.returnCurrencyName.bind(this);
@@ -26,11 +24,13 @@ class TableBody extends React.Component {
   }
 
   returnExchangeValue(exchangeRates, currency, value) {
+    const { exchangeValue } = this.state;
     const arrayExchangeRates = Object.values(exchangeRates);
     const currencyObject = arrayExchangeRates.find(({ code }) => code === currency);
     const exchangeRate = Number(currencyObject.ask);
-    const totalExchange = (exchangeRate * Number(value)).toFixed(2);
-    return totalExchange;
+    const totalExchange = (exchangeRate * Number(value));
+    if (exchangeValue === '') this.setState({ exchangeValue: totalExchange });
+    return totalExchange.toFixed(2);
   }
 
   returnExchangeRate(exchangeRates, currency) {
@@ -41,6 +41,7 @@ class TableBody extends React.Component {
   }
 
   render() {
+    const { exchangeValue } = this.state;
     const { expense, handleDelete } = this.props;
     const { id, currency, description, exchangeRates, method, tag, value } = expense;
     return (
@@ -59,6 +60,7 @@ class TableBody extends React.Component {
           <button
             data-testid="delete-btn"
             id={ id }
+            className={ exchangeValue }
             type="button"
             onClick={ handleDelete }
           >
@@ -74,6 +76,7 @@ class TableBody extends React.Component {
 
 TableBody.propTypes = {
   expense: PropTypes.objectOf(PropTypes.any).isRequired,
+  handleDelete: PropTypes.func.isRequired,
 };
 
 export default TableBody;
