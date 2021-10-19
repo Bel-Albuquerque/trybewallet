@@ -10,25 +10,38 @@ class ExpensesList extends React.Component {
     super();
 
     this.handleClickDelete = this.handleClickDelete.bind(this);
-    this.returnNewTotalValue = this.returnNewTotalValue.bind(this);
+    this.returnDeletedValue = this.returnDeletedValue.bind(this);
+    this.returnTotalvalue = this.returnTotalvalue.bind(this);
   }
 
-  returnNewTotalValue({ exchangeRates, currency, value }) {
-    const { newTotalValue } = this.props;
-    const arrayExchangeRates = Object.values(exchangeRates);
-    const currencyObject = arrayExchangeRates.find(({ code }) => code === currency);
-    const exchangeRate = Number(currencyObject.ask);
-    const totalExchange = exchangeRate * Number(value);
+  returnDeletedValue({ exchangeRates, currency, value }) {
+    const currencyObject = Object.values(exchangeRates).find(({ code }) => (
+      code === currency));
+    const deletedExchange = Number(currencyObject.ask) * Number(value);
+    return deletedExchange;
+  }
 
-    newTotalValue(totalExchange);
+  returnTotalvalue(expensesList) {
+    const totalValue = expensesList.reduce((acc, cur) => {
+      let temp = acc;
+      const objCurrency = Object.values(cur.exchangeRates).find(({ code }) => (
+        code === cur.currency));
+      temp += Number(objCurrency.ask) * Number(cur.value);
+      return temp;
+    }, 0);
+    return totalValue;
   }
 
   handleClickDelete({ target }) {
-    const { expensesList, newExpenseAct } = this.props;
+    const { expensesList, newExpenseAct, newTotalValue } = this.props;
     const { id } = target;
 
     const deletedObject = expensesList.find((obj) => obj.id === Number(id));
-    this.returnNewTotalValue(deletedObject);
+    const deletedValue = this.returnDeletedValue(deletedObject);
+    const totalValue = this.returnTotalvalue(expensesList);
+    const newTotal = totalValue - deletedValue;
+
+    newTotalValue(newTotal);
 
     const newArray = expensesList.reduce((acc, cur) => {
       let temp = acc;

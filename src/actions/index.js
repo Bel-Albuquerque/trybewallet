@@ -28,7 +28,7 @@ export const newExpenseAction = (newExpense) => ({
 
 export const NEW_TOTAL_VALUE = 'NEW_TOTAL_VALUE';
 
-export const newTotalValueAction = (newValue) => ({
+export const newTotalValueAction = (newTotal) => ({
   type: NEW_TOTAL_VALUE,
-  newValue,
+  newTotal,
 });
