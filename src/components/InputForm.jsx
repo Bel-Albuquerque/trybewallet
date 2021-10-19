@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 
 class InputForm extends React.Component {
   render() {
-    const { createObjectOfExpenses, typeOfCoins, handlechange, handleclick } = this.props;
+    const { createObjectOfExpenses, editBtn, typeOfCoins, handlechange, handleclick, handleSendEdit } = this.props;
     return (
       <>
         <label htmlFor="currency">
@@ -31,12 +31,18 @@ class InputForm extends React.Component {
             <option name="tag" value="Saúde">Saúde</option>
           </select>
         </label>
-        <button
+        {!editBtn && <button
           onClick={ () => handleclick(createObjectOfExpenses) }
           type="button"
         >
           Adicionar despesa
-        </button>
+        </button>}
+        {editBtn && <button
+          onClick={ handleSendEdit }
+          type="button"
+        >
+          Editar despesa
+        </button>}
       </>
     );
   }

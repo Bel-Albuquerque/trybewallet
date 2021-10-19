@@ -1,7 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { fetchAwesomeApi } from '../actions';
+import { editAction, fetchAwesomeApi } from '../actions';
 import getCoins from '../sevicesAPI/moedasAPI';
 import InputForm from './InputForm';
 
@@ -15,15 +15,23 @@ class Form extends React.Component {
       currency: '',
       method: '',
       tag: '',
+      editBtn: false,
+      id: ''
     };
 
     this.requestCoinsAndPutInTheState = this.requestCoinsAndPutInTheState.bind(this);
     this.handleChange = this.handleChange.bind(this);
     this.handleClick = this.handleClick.bind(this);
+    this.editExpenseItem = this.editExpenseItem.bind(this);
+    this.handleSendEdit = this.handleSendEdit.bind(this);
   }
 
   componentDidMount() {
     this.requestCoinsAndPutInTheState();
+  }
+
+  componentDidUpdate() {
+    this.editExpenseItem();
   }
 
   async requestCoinsAndPutInTheState() {
@@ -50,10 +58,31 @@ class Form extends React.Component {
     callback1(objExpense);
   }
 
-  // eslint-disable-next-line max-lines-per-function
+  editExpenseItem() {
+    const { editExpenses, editthis } = this.props;
+    if (!editExpenses === false) {
+      this.setState({
+        editBtn: true,
+        value: editExpenses.value,
+        description: editExpenses.description,
+        currency: editExpenses.currency,
+        method: editExpenses.method,
+        tag: editExpenses.tag,
+        id: editExpenses.id,
+      }, () => editthis(false));
+    }
+  }
+
+  handleSendEdit() {
+    const { expensesList } = this.props;
+    const { id } = this.state;
+    expensesList.splice(Number(id), 1);
+    console.log(expensesList);
+  }
+
   render() {
     const { createObjectOfExpenses } = this.props;
-    const { typeOfCoins, value, description } = this.state;
+    const { typeOfCoins, value, description, editBtn } = this.state;
     return (
       <form>
         <label htmlFor="value">
@@ -78,9 +107,11 @@ class Form extends React.Component {
         </label>
         <InputForm
           createObjectOfExpenses={ createObjectOfExpenses }
+          editBtn={ editBtn }
           typeOfCoins={ typeOfCoins }
           handlechange={ this.handleChange }
           handleclick={ this.handleClick }
+          handleSendEdit={ this.handleSendEdit }
         />
       </form>
     );
@@ -88,15 +119,22 @@ class Form extends React.Component {
 }
 
 const mapStateToProps = (state) => ({
-  expensesList: state.wallet.totalValue,
+  expensesList: state.wallet.expenses,
+  editExpenses: state.edit.edit,
 });
 
 const mapDispatchToProps = (dispath) => ({
   createObjectOfExpenses: (expense) => dispath(fetchAwesomeApi(expense)),
+  editthis: (edit) => dispath(editAction(edit))
 });
 
 Form.propTypes = {
   createObjectOfExpenses: PropTypes.func.isRequired,
+  editExpenses: PropTypes.bool,
+};
+
+Form.defaultProps = {
+  editExpenses: PropTypes.objectOf(PropTypes.any),
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(Form);

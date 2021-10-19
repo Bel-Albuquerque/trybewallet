@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TableBody from './TableBody';
 import TableHeader from './TableHeader';
-import { newExpenseAction, newTotalValueAction } from '../actions';
+import { editAction, newExpenseAction, newTotalValueAction } from '../actions';
 
 class ExpensesList extends React.Component {
   constructor() {
@@ -12,6 +12,7 @@ class ExpensesList extends React.Component {
     this.handleClickDelete = this.handleClickDelete.bind(this);
     this.returnDeletedValue = this.returnDeletedValue.bind(this);
     this.returnTotalvalue = this.returnTotalvalue.bind(this);
+    this.handleEdit = this.handleEdit.bind(this);
   }
 
   returnDeletedValue({ exchangeRates, currency, value }) {
@@ -34,9 +35,9 @@ class ExpensesList extends React.Component {
 
   handleClickDelete({ target }) {
     const { expensesList, newExpenseAct, newTotalValue } = this.props;
-    const { id } = target;
+    const { className } = target;
 
-    const deletedObject = expensesList.find((obj) => obj.id === Number(id));
+    const deletedObject = expensesList.find((obj) => obj.id === Number(className));
     const deletedValue = this.returnDeletedValue(deletedObject);
     const totalValue = this.returnTotalvalue(expensesList);
     const newTotal = totalValue - deletedValue;
@@ -45,13 +46,19 @@ class ExpensesList extends React.Component {
 
     const newArray = expensesList.reduce((acc, cur) => {
       let temp = acc;
-      if (cur.id !== Number(id)) {
+      if (cur.id !== Number(className)) {
         temp = [...acc, cur];
       }
       return temp;
     }, []);
 
     newExpenseAct(newArray);
+  }
+
+  handleEdit(expense) {
+    const { editThis } = this.props;
+    console.log(expense);
+    editThis(expense);
   }
 
   render() {
@@ -68,6 +75,7 @@ class ExpensesList extends React.Component {
                 key={ index }
                 expense={ objExpense }
                 handleDelete={ this.handleClickDelete }
+                handleEdit={ this.handleEdit }
               />)) }
           </tbody>
         </table>
@@ -85,6 +93,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = (dispatch) => ({
   newExpenseAct: (newExpense) => dispatch(newExpenseAction(newExpense)),
   newTotalValue: (newValue) => dispatch(newTotalValueAction(newValue)),
+  editThis: (edit) => dispatch(editAction(edit)),
 });
 
 ExpensesList.propTypes = {

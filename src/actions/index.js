@@ -32,3 +32,10 @@ export const newTotalValueAction = (newTotal) => ({
   type: NEW_TOTAL_VALUE,
   newTotal,
 });
+
+export const EDIT_ACTIONS = 'EDIT_ACTIONS';
+
+export const editAction = (edit) => ({
+  type: EDIT_ACTIONS,
+  edit,
+});

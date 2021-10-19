@@ -38,7 +38,7 @@ class TableBody extends React.Component {
   }
 
   render() {
-    const { expense, handleDelete } = this.props;
+    const { expense, handleDelete, handleEdit } = this.props;
     const { id, currency, description, exchangeRates, method, tag, value } = expense;
     return (
 
@@ -52,10 +52,19 @@ class TableBody extends React.Component {
         <td>{ this.returnExchangeValue(exchangeRates, currency, value) }</td>
         <td>Real</td>
         <td>
-          Editar/
+          <button
+            data-testid="edit-btn"
+            type="button"
+            onClick={ () => handleEdit(expense) }
+            // className={ id }
+            // id={ currency }
+          >
+            Editar
+          </button>
+          /
           <button
             data-testid="delete-btn"
-            id={ id }
+            className={ id }
             type="button"
             onClick={ handleDelete }
           >
