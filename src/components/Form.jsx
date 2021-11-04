@@ -1,7 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
-import { editAction, fetchAwesomeApi } from '../actions';
+import { editAction, addCurrency,
+  fetchAwesomeApi, newExpenseAction, newTotalValueAction } from '../actions';
 import getCoins from '../sevicesAPI/moedasAPI';
 import InputForm from './InputForm';
 
@@ -9,14 +10,13 @@ class Form extends React.Component {
   constructor() {
     super();
     this.state = {
-      typeOfCoins: [],
       value: '',
       description: '',
-      currency: '',
-      method: '',
-      tag: '',
+      currency: 'USD',
+      method: 'Dinheiro',
+      tag: 'Transporte',
       editBtn: false,
-      id: ''
+      id: '',
     };
 
     this.requestCoinsAndPutInTheState = this.requestCoinsAndPutInTheState.bind(this);
@@ -35,15 +35,16 @@ class Form extends React.Component {
   }
 
   async requestCoinsAndPutInTheState() {
+    const { addArrayOfCurrencys } = this.props;
     const typeOfCoins = await getCoins();
-    const changeForArray = Object.values(typeOfCoins);
+    const changeForArray = Object.keys(typeOfCoins);
     changeForArray.splice(1, 1);
-    this.setState({ typeOfCoins: changeForArray });
+    addArrayOfCurrencys(changeForArray);
   }
 
   handleChange({ target }) {
-    const { name, value } = target;
-    this.setState({ [name]: value });
+    const { id, value } = target;
+    this.setState({ [id]: value });
   }
 
   handleClick(callback1) {
@@ -56,6 +57,15 @@ class Form extends React.Component {
       tag,
     };
     callback1(objExpense);
+    this.setState({
+      value: '',
+      description: '',
+      currency: '',
+      method: 'Dinheiro',
+      tag: 'Transporte',
+      editBtn: false,
+      id: '',
+    });
   }
 
   editExpenseItem() {
@@ -74,15 +84,35 @@ class Form extends React.Component {
   }
 
   handleSendEdit() {
-    const { expensesList } = this.props;
-    const { id } = this.state;
-    expensesList.splice(Number(id), 1);
-    console.log(expensesList);
+    const { expensesList, newExpenseList, createObjectOfExpenses } = this.props;
+    const { value, description, currency, method, tag, id } = this.state;
+    const editExpenseObj = {
+      value,
+      description,
+      currency,
+      method,
+      tag,
+    };
+    const newExpensesList = [...expensesList];
+    newExpensesList.splice(Number(id), 1, editExpenseObj);
+    newExpenseList([], true);
+    newExpensesList.forEach((obj) => {
+      createObjectOfExpenses(obj);
+    });
+    this.setState({
+      value: '',
+      description: '',
+      currency: '',
+      method: 'Dinheiro',
+      tag: 'Transporte',
+      editBtn: false,
+      id: '',
+    });
   }
 
   render() {
-    const { createObjectOfExpenses } = this.props;
-    const { typeOfCoins, value, description, editBtn } = this.state;
+    const { createObjectOfExpenses, arrayCurrencys } = this.props;
+    const { value, description, editBtn } = this.state;
     return (
       <form>
         <label htmlFor="value">
@@ -91,24 +121,22 @@ class Form extends React.Component {
             onChange={ this.handleChange }
             value={ value }
             type="text"
-            name="value"
             id="value"
           />
         </label>
         <label htmlFor="description">
-          Descrição
-          <input
+          descrição
+          <textarea
             onChange={ this.handleChange }
             value={ description }
             type="text"
-            name="description"
             id="description"
           />
         </label>
         <InputForm
           createObjectOfExpenses={ createObjectOfExpenses }
           editBtn={ editBtn }
-          typeOfCoins={ typeOfCoins }
+          typeOfCoins={ arrayCurrencys }
           handlechange={ this.handleChange }
           handleclick={ this.handleClick }
           handleSendEdit={ this.handleSendEdit }
@@ -121,16 +149,25 @@ class Form extends React.Component {
 const mapStateToProps = (state) => ({
   expensesList: state.wallet.expenses,
   editExpenses: state.edit.edit,
+  arrayCurrencys: state.wallet.currencies,
 });
 
-const mapDispatchToProps = (dispath) => ({
-  createObjectOfExpenses: (expense) => dispath(fetchAwesomeApi(expense)),
-  editthis: (edit) => dispath(editAction(edit))
+const mapDispatchToProps = (dispatch) => ({
+  createObjectOfExpenses: (expense) => dispatch(fetchAwesomeApi(expense)),
+  editthis: (edit) => dispatch(editAction(edit)),
+  newExpenseList: (newExpense, bool) => dispatch(newExpenseAction(newExpense, bool)),
+  newTotalValue: (newValue) => dispatch(newTotalValueAction(newValue)),
+  addArrayOfCurrencys: (currencys) => dispatch(addCurrency(currencys)),
 });
 
 Form.propTypes = {
   createObjectOfExpenses: PropTypes.func.isRequired,
   editExpenses: PropTypes.bool,
+  editthis: PropTypes.func.isRequired,
+  newExpenseList: PropTypes.func.isRequired,
+  addArrayOfCurrencys: PropTypes.func.isRequired,
+  expensesList: PropTypes.arrayOf(PropTypes.any).isRequired,
+  arrayCurrencys: PropTypes.arrayOf(PropTypes.any).isRequired,
 };
 
 Form.defaultProps = {

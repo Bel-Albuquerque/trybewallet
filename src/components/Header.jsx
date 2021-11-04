@@ -18,7 +18,6 @@ class Header extends React.Component {
         <p data-testid="email-field">
           { userLoggin }
         </p>
-        {/* {console.log(totalExpenses)} */}
         <p data-testid="total-field">
           { totalExpenses }
         </p>

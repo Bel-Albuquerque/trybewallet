@@ -21,9 +21,10 @@ export function fetchAwesomeApi(expense) {
 
 export const NEW_EXPENSES_LIST = 'NEW_EXPENSES_LIST';
 
-export const newExpenseAction = (newExpense) => ({
+export const newExpenseAction = (newExpense, bool) => ({
   type: NEW_EXPENSES_LIST,
   newExpense,
+  bool,
 });
 
 export const NEW_TOTAL_VALUE = 'NEW_TOTAL_VALUE';
@@ -38,4 +39,11 @@ export const EDIT_ACTIONS = 'EDIT_ACTIONS';
 export const editAction = (edit) => ({
   type: EDIT_ACTIONS,
   edit,
+});
+
+export const ADD_CURRENCY_OPTIONS = 'ADD_CURRENCY_OPTIONS';
+
+export const addCurrency = (currencys) => ({
+  type: ADD_CURRENCY_OPTIONS,
+  currencys,
 });

@@ -72,7 +72,6 @@ describe('6 - Desenvolva um formulário para adicionar uma despesa contendo as s
     const currencyInput = await screen.findByRole('combobox', {
       name: /moeda/i,
     });
-
     expect(currencyInput).toBeInTheDocument();
   });
 

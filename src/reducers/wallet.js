@@ -1,11 +1,18 @@
-import { EXPENSES_ACTIONS, NEW_EXPENSES_LIST, NEW_TOTAL_VALUE } from '../actions/index';
+import { ADD_CURRENCY_OPTIONS,
+  EXPENSES_ACTIONS, NEW_EXPENSES_LIST, NEW_TOTAL_VALUE } from '../actions/index';
 
-const INITIAL_STATE = { expenses: [], totalValue: 0 };
+const INITIAL_STATE = {
+  expenses: [],
+  totalValue: 0,
+  atualizalista: false,
+  currencies: [],
+};
 
 const wallet = (state = INITIAL_STATE, action) => {
   switch (action.type) {
   case EXPENSES_ACTIONS:
     return {
+      ...state,
       totalValue: state.totalValue + Number(action.expense.value)
       * action.json[action.expense.currency].ask,
       expenses: [...state.expenses, {
@@ -22,11 +29,17 @@ const wallet = (state = INITIAL_STATE, action) => {
     return {
       ...state,
       expenses: action.newExpense,
+      atualizalista: action.bool,
     };
   case NEW_TOTAL_VALUE:
     return {
       ...state,
       totalValue: action.newTotal,
+    };
+  case ADD_CURRENCY_OPTIONS:
+    return {
+      ...state,
+      currencies: action.currencys,
     };
 
   default:

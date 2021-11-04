@@ -57,7 +57,6 @@ class ExpensesList extends React.Component {
 
   handleEdit(expense) {
     const { editThis } = this.props;
-    console.log(expense);
     editThis(expense);
   }
 
