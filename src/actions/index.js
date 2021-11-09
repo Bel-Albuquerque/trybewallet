@@ -41,9 +41,23 @@ export const editAction = (edit) => ({
   edit,
 });
 
+export const EDIT_OBJ = 'EDIT_OBJ';
+
+export const editObjAction = (obj) => ({
+  type: EDIT_OBJ,
+  obj,
+});
+
 export const ADD_CURRENCY_OPTIONS = 'ADD_CURRENCY_OPTIONS';
 
 export const addCurrency = (currencys) => ({
   type: ADD_CURRENCY_OPTIONS,
   currencys,
+});
+
+export const TESTE = 'TESTE';
+
+export const makeTeste = (expense) => ({
+  type: TESTE,
+  expense,
 });

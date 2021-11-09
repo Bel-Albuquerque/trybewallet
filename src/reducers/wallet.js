@@ -1,5 +1,5 @@
 import { ADD_CURRENCY_OPTIONS,
-  EXPENSES_ACTIONS, NEW_EXPENSES_LIST, NEW_TOTAL_VALUE } from '../actions/index';
+  EXPENSES_ACTIONS, NEW_EXPENSES_LIST, NEW_TOTAL_VALUE, TESTE } from '../actions/index';
 
 const INITIAL_STATE = {
   expenses: [],
@@ -41,7 +41,19 @@ const wallet = (state = INITIAL_STATE, action) => {
       ...state,
       currencies: action.currencys,
     };
-
+  case TESTE:
+    return { ...state,
+      totalValue: state.totalValue + Number(action.expense.value)
+        * action.expense.exchangeRates[action.expense.currency].ask,
+      expenses: [...state.expenses, {
+        id: state.expenses.length,
+        value: action.expense.value,
+        description: action.expense.description,
+        currency: action.expense.currency,
+        method: action.expense.method,
+        tag: action.expense.tag,
+        exchangeRates: action.expense.exchangeRates,
+      }] };
   default:
     return state;
   }

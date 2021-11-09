@@ -31,11 +31,9 @@ class TableBody extends React.Component {
   }
 
   returnExchangeRate(exchangeRates, currency) {
-    console.log(exchangeRates);
     const arrayExchangeRates = Object.values(exchangeRates);
     const currencyObject = arrayExchangeRates.find(({ code }) => code === currency);
     const exchangeRate = Number(currencyObject.ask).toFixed(2);
-    console.log(exchangeRate);
     return exchangeRate;
   }
 

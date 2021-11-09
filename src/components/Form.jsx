@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { editAction, addCurrency,
-  fetchAwesomeApi, newExpenseAction, newTotalValueAction } from '../actions';
+  fetchAwesomeApi, newExpenseAction, newTotalValueAction, makeTeste } from '../actions';
 import getCoins from '../sevicesAPI/moedasAPI';
 import InputForm from './InputForm';
 
@@ -84,7 +84,7 @@ class Form extends React.Component {
   }
 
   handleSendEdit() {
-    const { expensesList, newExpenseList, createObjectOfExpenses } = this.props;
+    const { expensesList, newExpenseList, actionTeste, objEdit } = this.props;
     const { value, description, currency, method, tag, id } = this.state;
     const editExpenseObj = {
       value,
@@ -92,12 +92,13 @@ class Form extends React.Component {
       currency,
       method,
       tag,
-    };
+      exchangeRates: objEdit.exchangeRates,
+    }; // tenho que buscar o exchangeRates antes de fazer o splice
     const newExpensesList = [...expensesList];
     newExpensesList.splice(Number(id), 1, editExpenseObj);
     newExpenseList([], true);
     newExpensesList.forEach((obj) => {
-      createObjectOfExpenses(obj);
+      actionTeste(obj);
     });
     this.setState({
       value: '',
@@ -111,7 +112,7 @@ class Form extends React.Component {
   }
 
   render() {
-    const { createObjectOfExpenses, arrayCurrencys } = this.props;
+    const { createObjectOfExpenses, arrayCurrencys, expensesList } = this.props;
     const { value, description, editBtn } = this.state;
     return (
       <form>
@@ -150,6 +151,7 @@ const mapStateToProps = (state) => ({
   expensesList: state.wallet.expenses,
   editExpenses: state.edit.edit,
   arrayCurrencys: state.wallet.currencies,
+  objEdit: state.edit.obj,
 });
 
 const mapDispatchToProps = (dispatch) => ({
@@ -158,6 +160,7 @@ const mapDispatchToProps = (dispatch) => ({
   newExpenseList: (newExpense, bool) => dispatch(newExpenseAction(newExpense, bool)),
   newTotalValue: (newValue) => dispatch(newTotalValueAction(newValue)),
   addArrayOfCurrencys: (currencys) => dispatch(addCurrency(currencys)),
+  actionTeste: (expense) => dispatch(makeTeste(expense)),
 });
 
 Form.propTypes = {
@@ -168,6 +171,8 @@ Form.propTypes = {
   addArrayOfCurrencys: PropTypes.func.isRequired,
   expensesList: PropTypes.arrayOf(PropTypes.any).isRequired,
   arrayCurrencys: PropTypes.arrayOf(PropTypes.any).isRequired,
+  actionTeste: PropTypes.func.isRequired,
+  objEdit: PropTypes.objectOf(PropTypes.any).isRequired,
 };
 
 Form.defaultProps = {

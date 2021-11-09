@@ -3,7 +3,8 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import TableBody from './TableBody';
 import TableHeader from './TableHeader';
-import { editAction, newExpenseAction, newTotalValueAction } from '../actions';
+import { editAction, editObjAction,
+  newExpenseAction, newTotalValueAction } from '../actions';
 
 class ExpensesList extends React.Component {
   constructor() {
@@ -56,8 +57,9 @@ class ExpensesList extends React.Component {
   }
 
   handleEdit(expense) {
-    const { editThis } = this.props;
+    const { editThis, saveObj } = this.props;
     editThis(expense);
+    saveObj(expense);
   }
 
   render() {
@@ -93,12 +95,15 @@ const mapDispatchToProps = (dispatch) => ({
   newExpenseAct: (newExpense) => dispatch(newExpenseAction(newExpense)),
   newTotalValue: (newValue) => dispatch(newTotalValueAction(newValue)),
   editThis: (edit) => dispatch(editAction(edit)),
+  saveObj: (obj) => dispatch(editObjAction(obj)),
 });
 
 ExpensesList.propTypes = {
   expensesList: PropTypes.arrayOf(PropTypes.any).isRequired,
   newTotalValue: PropTypes.func.isRequired,
   newExpenseAct: PropTypes.func.isRequired,
+  editThis: PropTypes.func.isRequired,
+  saveObj: PropTypes.func.isRequired,
 };
 
 export default connect(mapStateToProps, mapDispatchToProps)(ExpensesList);
