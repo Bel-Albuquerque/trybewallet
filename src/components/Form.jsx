@@ -112,7 +112,7 @@ class Form extends React.Component {
   }
 
   render() {
-    const { createObjectOfExpenses, arrayCurrencys, expensesList } = this.props;
+    const { createObjectOfExpenses, arrayCurrencys } = this.props;
     const { value, description, editBtn } = this.state;
     return (
       <form>
